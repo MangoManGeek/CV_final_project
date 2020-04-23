@@ -32,13 +32,12 @@ detector = MTCNN()
 
 while(True):
     # Capture frame-by-frame
-    ret, frame = cap.read()
-    
+    ret, image = cap.read()
     # Our operations on the frame come here
-    image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     result = detector.detect_faces(image)
     for r in result:
         if 'box' in r and 'keypoints' in r:
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             bounding_box = r['box']
             keypoints = r['keypoints']
 

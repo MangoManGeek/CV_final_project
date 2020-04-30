@@ -22,18 +22,20 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
+import time
 import numpy as np
 import cv2
 from mtcnn import MTCNN
 
 cap = cv2.VideoCapture(0)
 detector = MTCNN()
-
+#time_start = time.time()
 while(True):
+#    time.sleep(0.05)
     # Capture frame-by-frame
     ret, image = cap.read()
     # Our operations on the frame come here
+#    if time.time()-time_start>0.05:
     result = detector.detect_faces(image)
     for r in result:
         if 'box' in r and 'keypoints' in r:
@@ -56,6 +58,7 @@ while(True):
     # Display the resulting frame
     
     cv2.imshow('frame',image)
+#        time_start = time.time()
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 

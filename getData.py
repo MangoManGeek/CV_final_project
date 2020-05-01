@@ -19,8 +19,8 @@ with os.scandir(read_directory) as entries:
             for filename in os.listdir(entry.path):
 #                if img_Id >=1:
 #                    break
-                image = cv2.imread(filename,cv2.COLOR_BGR2RGB).astype(np.float32)
-                image = cv2.resize(image,(230,310))
+                image = cv2.imread(filename,cv2.COLOR_BGR2RGB)
+                image = cv2.resize(image,(57,77))
                 image = skimage.img_as_float32(image)
                 id2img.append(image)
                 id2Label.append(entry.name)

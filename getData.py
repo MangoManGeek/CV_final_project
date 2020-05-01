@@ -3,15 +3,15 @@ import numpy as np
 import cv2
 import skimage
 
-# directory = r'/Users/rasn/GitHub/CV_final_project/new_faces'
-directory = os.path.join(os.path.abspath(os.getcwd()), r'new_faces')
+read_directory = os.path.join(os.path.abspath(os.getcwd()), r'new_faces')
+save_directory = os.path.abspath(os.getcwd())
 id2img = []
 id2Label = []
 img_Id = 0
 dataSet = []    #list of tuple[img1_id,img2_id]
 labelSet = []    #list of label
 
-with os.scandir(directory) as entries:
+with os.scandir(read_directory) as entries:
     for entry in entries:
         if not entry.name.endswith(".DS_Store"):
             os.chdir(entry.path)
@@ -35,7 +35,7 @@ for i in range(img_Id):
 dataSet = np.array(dataSet)
 np.random.shuffle(dataSet)
 print(dataSet.shape)
-os.chdir(r'/Users/rasn/GitHub/CV_final_project/')
+os.chdir(save_directory)
 train_data = dataSet[0:int(0.8*dataSet.shape[0]),0:2]
 train_label = dataSet[0:int(0.8*dataSet.shape[0]),2:3]
 test_data = dataSet[int(0.8*dataSet.shape[0]):,0:2]

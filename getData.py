@@ -4,7 +4,7 @@ import cv2
 import skimage
 
 # directory = r'/Users/rasn/GitHub/CV_final_project/new_faces'
-directory = r'new_faces'
+directory = os.path.join(os.path.abspath(os.getcwd()), r'new_faces')
 id2img = []
 id2Label = []
 img_Id = 0

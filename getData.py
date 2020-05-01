@@ -3,7 +3,8 @@ import numpy as np
 import cv2
 import skimage
 
-directory = r'/Users/rasn/GitHub/CV_final_project/new_faces'
+# directory = r'/Users/rasn/GitHub/CV_final_project/new_faces'
+directory = r'new_faces'
 id2img = []
 id2Label = []
 img_Id = 0

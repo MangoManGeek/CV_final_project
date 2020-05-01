@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import cv2
+import skimage
+
 directory = r'/Users/rasn/GitHub/CV_final_project/new_faces'
 id2img = []
 id2Label = []
@@ -16,8 +18,9 @@ with os.scandir(directory) as entries:
             for filename in os.listdir(entry.path):
 #                if img_Id >=1:
 #                    break
-                image = cv2.imread(filename,cv2.COLOR_BGR2RGB)
+                image = cv2.imread(filename,cv2.COLOR_BGR2RGB).astype(np.float32)
                 image = cv2.resize(image,(230,310))
+                image = skimage.img_as_float32(image)
                 id2img.append(image)
                 id2Label.append(entry.name)
                 img_Id+=1
@@ -37,8 +40,8 @@ train_label = dataSet[0:int(0.8*dataSet.shape[0]),2:3]
 test_data = dataSet[int(0.8*dataSet.shape[0]):,0:2]
 test_label = dataSet[int(0.8*dataSet.shape[0]):,2:3]
 print(train_data.shape,train_label.shape,test_data.shape,test_label.shape)
-np.save('img_db', id2img)
-np.save('train_data', train_data)
-np.save('train_label', train_label)
-np.save('test_data', test_data)
-np.save('test_label', test_label)
+np.save('img_db.npy', id2img)
+np.save('train_data.npy', train_data)
+np.save('train_labels.npy', train_label)
+np.save('test_data.npy', test_data)
+np.save('test_labels.npy', test_label)

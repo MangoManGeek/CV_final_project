@@ -115,7 +115,7 @@ class Model(tf.keras.Model):
 
 def train(model, train_inputs, train_labels, img_db, test_inputs, test_labels):
     # (N, window, 2)
-    num_epochs = 1
+    num_epochs = 100
     train_size = train_inputs.shape[0]
     index = [i for i in range(train_size)]
     index = tf.random.shuffle(index)

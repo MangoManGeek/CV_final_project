@@ -39,7 +39,7 @@ class Model(tf.keras.Model):
             Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv1"),
             Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv2"),
             Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv3"),
-            MaxPool2D(2, name="block5_pool")
+            MaxPool2D(2, name="block5_pool"),
             
             # Conv2D(256, 3, 1, padding="same", activation="relu", name="conv1"),
             # # # Conv2D(64, 3, 1, padding="same", activation="relu", name="conv11"),

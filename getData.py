@@ -27,13 +27,26 @@ with os.scandir(read_directory) as entries:
                 img_Id+=1
 #                os.chdir('/Users/rasn/Downloads')
 #                cv2.imwrite('test.jpg', image)
+t_n = 0
+f_n = 0
 for i in range(img_Id):
     for j in range(i+1,img_Id):
             label = id2Label[i]==id2Label[j]
+            if label:
+                if t_n<4000:
+                    t_n+=1
+                else:
+                    continue
+            else:
+                if f_n<4000:
+                    f_n+=1
+                else:
+                    continue
             data = [i,j,label]
             dataSet.append(data)
 dataSet = np.array(dataSet)
 np.random.shuffle(dataSet)
+print(t_n,f_n,t_n+f_n)
 print(dataSet.shape)
 os.chdir(save_directory)
 train_data = dataSet[0:int(0.8*dataSet.shape[0]),0:2]

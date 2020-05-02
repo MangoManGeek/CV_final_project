@@ -17,29 +17,53 @@ class Model(tf.keras.Model):
         self.batch_size = 64
 
         self.architecture = [
-            Conv2D(256, 3, 1, padding="same", activation="relu", name="conv1"),
-            # # Conv2D(64, 3, 1, padding="same", activation="relu", name="conv11"),
-            MaxPool2D(6, name="pool1"),
+            # Block 1
+            Conv2D(64, 3, 1, padding="same", activation="relu", name="block1_conv1"),
+            Conv2D(64, 3, 1, padding="same", activation="relu", name="block1_conv2"),
+            MaxPool2D(2, name="block1_pool"),
+            # Block 2
+            Conv2D(128, 3, 1, padding="same", activation="relu", name="block2_conv1"),
+            Conv2D(128, 3, 1, padding="same", activation="relu", name="block2_conv2"),
+            MaxPool2D(2, name="block2_pool"),
+            # Block 3
+            Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv1"),
+            Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv2"),
+            Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv3"),
+            MaxPool2D(2, name="block3_pool"),
+            # Block 4
+            Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv1"),
+            Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv2"),
+            Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv3"),
+            MaxPool2D(2, name="block4_pool"),
+            # Block 5
+            Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv1"),
+            Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv2"),
+            Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv3"),
+            MaxPool2D(2, name="block5_pool")
+            
+            # Conv2D(256, 3, 1, padding="same", activation="relu", name="conv1"),
+            # # # Conv2D(64, 3, 1, padding="same", activation="relu", name="conv11"),
+            # MaxPool2D(6, name="pool1"),
 
-            Conv2D(128, 3, 1, padding="same", activation="relu", name="conv2"),
-            # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv22"),
-            MaxPool2D(4, name="pool2"),
+            # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv2"),
+            # # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv22"),
+            # MaxPool2D(4, name="pool2"),
 
-            Conv2D(64, 3, 1, padding="same", activation="relu", name="conv3"),
-            # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv4"),
-            MaxPool2D(2, name="pool3"),
+            # Conv2D(64, 3, 1, padding="same", activation="relu", name="conv3"),
+            # # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv4"),
+            # MaxPool2D(2, name="pool3"),
 
-            # Conv2D(32, 3, 1, padding="same", activation="relu", name="conv4"),
-            # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv4"),
-            # MaxPool2D(2, name="pool4"),
+            # # Conv2D(32, 3, 1, padding="same", activation="relu", name="conv4"),
+            # # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv4"),
+            # # MaxPool2D(2, name="pool4"),
 
-            # Dropout(rate=0.5),
+            # # Dropout(rate=0.5),
 
             Flatten(),
 
-            # Dense(256, activation="relu"),
+            # # Dense(256, activation="relu"),
             
-            # Dropout(rate=0.5),
+            # # Dropout(rate=0.5),
 
             Dense(128, activation="relu"),
 

@@ -17,40 +17,40 @@ class Model(tf.keras.Model):
         self.batch_size = 64
 
         self.architecture = [
-            # # Block 1
-            # Conv2D(64, 3, 1, padding="same", activation="relu", name="block1_conv1"),
-            # Conv2D(64, 3, 1, padding="same", activation="relu", name="block1_conv2"),
-            # MaxPool2D(2, name="block1_pool"),
-            # # Block 2
-            # Conv2D(128, 3, 1, padding="same", activation="relu", name="block2_conv1"),
-            # Conv2D(128, 3, 1, padding="same", activation="relu", name="block2_conv2"),
-            # MaxPool2D(2, name="block2_pool"),
-            # # Block 3
-            # Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv1"),
-            # Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv2"),
-            # Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv3"),
-            # MaxPool2D(2, name="block3_pool"),
-            # # Block 4
-            # Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv1"),
-            # Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv2"),
-            # Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv3"),
-            # MaxPool2D(2, name="block4_pool"),
-            # # Block 5
-            # Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv1"),
-            # Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv2"),
-            # Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv3"),
-            # MaxPool2D(2, name="block5_pool"),
+#             # Block 1
+#             Conv2D(64, 3, 1, padding="same", activation="relu", name="block1_conv1"),
+#             Conv2D(64, 3, 1, padding="same", activation="relu", name="block1_conv2"),
+#             MaxPool2D(2, name="block1_pool"),
+#             # Block 2
+#             Conv2D(128, 3, 1, padding="same", activation="relu", name="block2_conv1"),
+#             Conv2D(128, 3, 1, padding="same", activation="relu", name="block2_conv2"),
+#             MaxPool2D(2, name="block2_pool"),
+#             # Block 3
+#             Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv1"),
+#             Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv2"),
+#             Conv2D(256, 3, 1, padding="same", activation="relu", name="block3_conv3"),
+#             MaxPool2D(2, name="block3_pool"),
+#             # Block 4
+#             Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv1"),
+#             Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv2"),
+#             Conv2D(512, 3, 1, padding="same", activation="relu", name="block4_conv3"),
+#             MaxPool2D(2, name="block4_pool"),
+#             # Block 5
+#             Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv1"),
+#             Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv2"),
+#             Conv2D(512, 3, 1, padding="same", activation="relu", name="block5_conv3"),
+#             MaxPool2D(2, name="block5_pool"),
             
             Conv2D(64, 3, 3, padding="same", activation="relu", name="conv1"),
             # # Conv2D(64, 3, 1, padding="same", activation="relu", name="conv11"),
-            MaxPool2D(2, name="pool1"),
+#            MaxPool2D(2, name="pool1"),
 
             Conv2D(128, 3, 3, padding="same", activation="relu", name="conv2"),
             # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv22"),
-            MaxPool2D(2, name="pool2"),
-
+#            MaxPool2D(2, name="pool2"),
+#
             Conv2D(256, 3, 3, padding="same", activation="relu", name="conv3"),
-            # Conv2D(128, 3, 1, padding="same", activation="relu", name="conv4"),
+#            Conv2D(128, 3, 3, padding="same", activation="relu", name="conv4"),
             MaxPool2D(2, name="pool3"),
 
             # Conv2D(32, 3, 1, padding="same", activation="relu", name="conv4"),
@@ -95,7 +95,7 @@ class Model(tf.keras.Model):
         for layer in self.architecture:
             img1 = layer(img1)
             img2 = layer(img2)
-
+#            print(img1.shape,"!!!!")
         # (batch, features)
 
         h = tf.concat([img1,img2], axis=1) #(batch, features*2)

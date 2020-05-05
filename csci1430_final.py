@@ -30,8 +30,8 @@ import emotion_detection as ed
 
 cap = cv2.VideoCapture(0)
 detector = MTCNN()
-#time_start = time.time()
-
+time_start = time.time()
+time_interval = 0.1
 font                   = cv2.FONT_HERSHEY_SIMPLEX
 bottomLeftCornerOfText = (10,500)
 fontScale              = 1
@@ -43,30 +43,31 @@ while(True):
     # Capture frame-by-frame
     ret, original_image = cap.read()
     # Our operations on the frame come here
-#    if time.time()-time_start>0.05:
-    result = detector.detect_faces(original_image)
-    for r in result:
-        if 'box' in r and 'keypoints' in r:
-            image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
-            bounding_box = r['box']
-            keypoints = r['keypoints']
+    if time.time()-time_start>=time_interval:
+        result = detector.detect_faces(original_image)
+        image = original_image
+        for r in result:
+            if 'box' in r and 'keypoints' in r:
+                image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
+                bounding_box = r['box']
+                keypoints = r['keypoints']
 
-            cv2.rectangle(image,
-                                    (bounding_box[0], bounding_box[1]),
-                                    (bounding_box[0]+bounding_box[2], bounding_box[1] + bounding_box[3]),
-                                    (0,155,255),
-                                    2)
-            cv2.circle(image,(keypoints['left_eye']), 2, (0,155,255), 2)
-            cv2.circle(image,(keypoints['right_eye']), 2, (0,155,255), 2)
-            cv2.circle(image,(keypoints['nose']), 2, (0,155,255), 2)
-            cv2.circle(image,(keypoints['mouth_left']), 2, (0,155,255), 2)
-            cv2.circle(image,(keypoints['mouth_right']), 2, (0,155,255), 2)
-                # Display the resulting frame
-    emotion = ed.predict_emotion(original_image)
-    cv2.putText(image,emotion, (bounding_box[0], bounding_box[1]), font, fontScale,fontColor,lineType)
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                cv2.rectangle(image,
+                                        (bounding_box[0], bounding_box[1]),
+                                        (bounding_box[0]+bounding_box[2], bounding_box[1] + bounding_box[3]),
+                                        (0,155,255),
+                                        2)
+                cv2.circle(image,(keypoints['left_eye']), 2, (0,155,255), 2)
+                cv2.circle(image,(keypoints['right_eye']), 2, (0,155,255), 2)
+                cv2.circle(image,(keypoints['nose']), 2, (0,155,255), 2)
+                cv2.circle(image,(keypoints['mouth_left']), 2, (0,155,255), 2)
+                cv2.circle(image,(keypoints['mouth_right']), 2, (0,155,255), 2)
+                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                    # Display the resulting frame
+            emotion = ed.predict_emotion(original_image)
+            cv2.putText(image,emotion, (bounding_box[0], bounding_box[1]), font, fontScale,fontColor,lineType)
+            time_start = time.time()
     cv2.imshow('frame',image)
-#        time_start = time.time()
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 

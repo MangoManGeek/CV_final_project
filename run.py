@@ -14,7 +14,7 @@ class Model(tf.keras.Model):
 
         super(Model, self).__init__()
 
-        self.batch_size = 64
+        self.batch_size = 32
 
         self.architecture = [
 #             # Block 1
@@ -81,8 +81,8 @@ class Model(tf.keras.Model):
         self.dense1 = tf.keras.layers.Dense(64, activation="relu")
         self.dense2 = tf.keras.layers.Dense(16, activation="relu")
         self.dense3 = tf.keras.layers.Dense(2, activation=None)
-        # self.optimizer = tf.keras.optimizers.Adam(0.001)
-        self.optimizer = tf.keras.optimizers.RMSprop(learning_rate=1e-3, momentum=0.9)
+        self.optimizer = tf.keras.optimizers.Adam(0.001)
+        # self.optimizer = tf.keras.optimizers.RMSprop(learning_rate=1e-3, momentum=0.9)
         
     def call(self, inputs, img_db):
         # inputs (N, 2)
@@ -111,8 +111,10 @@ class Model(tf.keras.Model):
 #        logits = -tf.math.log(r-1+1e-8)
 #        logits = tf.reshape(logits, [-1, 1])
 #        logits = tf.concat([-logits, logits], axis=1)
+        # print(logits)
 
-        return tf.math.sigmoid(logits)
+        # return tf.math.sigmoid(logits)
+        return tf.nn.softmax(logits)
 
     def loss(self, logits, labels):
         loss = tf.keras.losses.sparse_categorical_crossentropy(y_true=labels, y_pred=logits)
@@ -127,21 +129,29 @@ def train(model, train_inputs, train_labels, img_db, test_inputs, test_labels):
     index = tf.random.shuffle(index)
     train_inputs = tf.gather(train_inputs, index)
     train_labels = tf.gather(train_labels, index)
+    print(train_labels.shape)
     print('Total steps: ', int(train_size/model.batch_size))
     for epoch in range(num_epochs):
         train_loss = 0
         step = 0
+        accuracy = 0.0
         for start, end in zip(range(0, train_size - model.batch_size, model.batch_size), range(model.batch_size, train_size, model.batch_size)):
             batch_data = train_inputs[start:end]
             batch_labels = train_labels[start:end]
             with tf.GradientTape() as tape:
                 logits = model.call(batch_data, img_db)
                 loss = model.loss(logits, batch_labels)
-
+                pred = tf.argmax(logits, axis=1)
+            
+            result = tf.dtypes.cast(tf.math.equal(pred, tf.dtypes.cast(batch_labels, tf.int64)), tf.float32)
+            accuracy += tf.reduce_mean(result)
             train_loss += loss
             step += 1
             if step % 50 == 0:
-                print('Step %d \t Loss: %.3f' % (step, train_loss / step))
+                print(pred.shape)
+                print(batch_labels.shape)
+                print("result:", result)
+                print('Step %d \t Loss: %.3f \t Acc: %.3f' % (step, train_loss / step, accuracy / step))
             gradients = tape.gradient(loss, model.trainable_variables)
             model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 
@@ -164,6 +174,7 @@ def test(model, test_inputs, test_labels, img_db):
         cur_labels = test_labels[start:end]
         logits = model.call(cur_inputs, img_db)
         pred = tf.argmax(logits, axis=1)
+        # print(pred)
         f1 += f1_score(cur_labels, pred)
         result = tf.dtypes.cast(tf.math.equal(pred, cur_labels), tf.float32)
         accuracy += tf.reduce_mean(result)
@@ -186,9 +197,9 @@ def main():
     test_labels_fp = 'test_labels.npy'
     
     train_data = np.load(train_data_fp).astype(np.int32) #(N, 2)
-    train_labels = np.load(train_labels_fp).astype(np.int32) #(N,)
+    train_labels = np.reshape(np.load(train_labels_fp).astype(np.int32), [-1]) #(N,)
     test_data = np.load(test_data_fp).astype(np.int32)
-    test_labels = np.load(test_labels_fp).astype(np.int32)
+    test_labels = np.reshape(np.load(test_labels_fp).astype(np.int32), [-1])
     print('train data: ', train_data.shape)
     print('train labels: ', train_labels.shape)
     print('test data: ', test_data.shape)

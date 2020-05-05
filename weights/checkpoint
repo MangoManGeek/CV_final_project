@@ -1,0 +1,2 @@
+model_checkpoint_path: "emotion_detect_without_augumentation"
+all_model_checkpoint_paths: "emotion_detect_without_augumentation"

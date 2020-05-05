@@ -42,10 +42,10 @@ while(True):
 #    time.sleep(0.05)
     # Capture frame-by-frame
     ret, original_image = cap.read()
+    image = original_image
     # Our operations on the frame come here
     if time.time()-time_start>=time_interval:
         result = detector.detect_faces(original_image)
-        image = original_image
         for r in result:
             if 'box' in r and 'keypoints' in r:
                 image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
